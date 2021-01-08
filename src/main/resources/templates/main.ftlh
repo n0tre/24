@@ -29,34 +29,34 @@
                         <label class="custom-file-label" for="customFile">Choose file to upload</label>
                     </div>
                 </div>
-        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                    <div class="form-group">
-        <button class="btn btn-primary" type="submit">Add</button>
-    </div>
-    </form>
-    </div>
+                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Add</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <div class="card-columns">
-    <#list messages as message>
+        <#list messages as message>
 
-        <div class="card my-4">
-            <div>
-                <#if message.filename??>
-                    <img src="/img/${message.filename}" class="card-img-top">
-                </#if>
-            </div>
-            <div class="m-2">
-            <span>${message.text}</span>
-            <i>${message.tag}</i>
-            </div>
-        <div class="card-footer text-muted">
-            ${message.authorName}
-        </div>
+            <div class="card my-4">
+                <div>
+                    <#if message.filename??>
+                        <img src="/img/${message.filename}" class="card-img-top">
+                    </#if>
+                </div>
+                <div class="m-2">
+                    <span>${message.text}</span>
+                    <i>${message.tag}</i>
+                </div>
+                <div class="card-footer text-muted">
+                    ${message.authorName}
+                </div>
 
-        </div>
-    <#else>
-        No message
-    </#list>
+            </div>
+        <#else>
+            No message
+        </#list>
     </div>
 </@c.page>
