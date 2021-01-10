@@ -10,7 +10,7 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     </head>
-    <body background="static/18.jpg"
+    <body background="static/gradient.png"
           style="background-position: center; background-repeat: no-repeat; background-size: cover;">
     <#include "navbar.ftlh">
     <div class="container mt-5" >

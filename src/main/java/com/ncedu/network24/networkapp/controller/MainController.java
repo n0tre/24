@@ -47,8 +47,6 @@ public class MainController {
         model.addAttribute("filter", filter);
 
         return "main";
-
-
     }
 
     @PostMapping("/main")
@@ -80,4 +78,4 @@ public class MainController {
 
         return "main";
     }
-    }
+}

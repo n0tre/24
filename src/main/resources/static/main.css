@@ -35,7 +35,7 @@ body:before {
     position: absolute;
     top: 0;
     left: 0;
-    background: 18.jpg;
+    background: gradient.png;
     content: "";
     z-index: 0;
 }
@@ -170,6 +170,10 @@ button.accent {
 
 #chat-page #messageForm {
     padding: 20px;
+}
+
+#chat-page #messageArea {
+    height: 400px !important;
 }
 
 #chat-page ul li {
