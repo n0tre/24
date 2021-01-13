@@ -42,4 +42,5 @@ public class ChatController {
         model.addAttribute("users", users);
         return "privateChat";
     }
+
 }

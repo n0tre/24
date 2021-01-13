@@ -9,11 +9,14 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
+            <#if isBlocked>
+                You are blocked
+            <#else>
             <li class="nav-item">
                 <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/main">Messages</a>
+                <a class="nav-link" href="/main">Feed</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/privateChat">Chat</a>
@@ -23,7 +26,9 @@
                     <a class="nav-link" href="/user">User list</a>
                 </li>
             </#if>
+            </#if>
         </ul>
+
 
         <div class="navbar-text mr-3" >${name}</div>
         <@l.logout />

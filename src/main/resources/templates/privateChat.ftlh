@@ -7,7 +7,7 @@
     <head>
         <meta name="viewport"
               content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-        <title>Spring Boot WebSocket Chat Application | CalliCoder</title>
+        <title>24NETWORK</title>
         <link rel="stylesheet" href="/main.css" />
     </head>
     <body background="../static/gradient.png"
