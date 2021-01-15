@@ -2,7 +2,7 @@
 
 <@c.page>
 <h5>
-    Hello, guest
+    Welcome to the social network!
 </h5>
-    <div>This is simple social network by Michael Fedorenko</div>
+    <div>This is NetCracker education project</div>
 </@c.page>
