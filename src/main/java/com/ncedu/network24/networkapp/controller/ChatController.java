@@ -2,28 +2,22 @@ package com.ncedu.network24.networkapp.controller;
 
 import com.ncedu.network24.networkapp.domain.Chat;
 import com.ncedu.network24.networkapp.domain.User;
-import com.ncedu.network24.networkapp.model.ChatMessage;
+import com.ncedu.network24.networkapp.domain.ChatMessage;
 import com.ncedu.network24.networkapp.repositories.ChatRepo;
 import com.ncedu.network24.networkapp.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 public class ChatController {

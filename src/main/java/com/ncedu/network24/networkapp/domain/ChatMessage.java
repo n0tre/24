@@ -1,4 +1,4 @@
-package com.ncedu.network24.networkapp.model;
+package com.ncedu.network24.networkapp.domain;
 
 public class ChatMessage {
     private String content;
