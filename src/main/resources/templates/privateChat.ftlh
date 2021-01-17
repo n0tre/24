@@ -17,19 +17,20 @@
     </noscript>
     <div id="username-page">
         <div class="username-page-container">
-            <h1 class="title">Type username for chatting</h1>
-            <form id="usernameForm" name="usernameForm">
+            <h1 class="title">Select username for chatting</h1>
+            <form id="usernameForm" name="usernameForm" method="post">
                 <div class="form-group">
-                    <input type="hidden" id="username" value="${user.username}"/>
-                    <select name="usersName" id="name" class="form-control">
-                        <#list users as user>
-                            <option>${user.username}</option>
+                    <input type="hidden" id="senderId" value="${sender.id}"/>
+                    <input type="hidden" id="senderName" value="${sender.username}"/>
+                    <select name="receiverId" id="receiverId" class="form-control">
+                        <#list receivers as receiver>
+                            <option value="${receiver.id}">${receiver.username}</option>
                         </#list>
                     </select>
                 </div>
+                <input type="hidden" id="_csrf" name="_csrf" value="${_csrf.token}"/>
                 <div class="form-group">
-                    <button type="submit" class="accent username-submit">Start
-                        Chatting</button>
+                    <button type="submit" class="accent username-submit">Start Chatting</button>
                 </div>
             </form>
         </div>

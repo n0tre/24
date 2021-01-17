@@ -3,9 +3,9 @@ package com.ncedu.network24.networkapp.model;
 public class ChatMessage {
     private String content;
     private String sender;
+    private String receiver;
+    private String chat;
     private MessageType type;
-
-
 
     public enum MessageType {
         CHAT, LEAVE, JOIN
@@ -33,5 +33,21 @@ public class ChatMessage {
 
     public void setType(MessageType type) {
         this.type = type;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+
+    public String getChat() {
+        return chat;
+    }
+
+    public void setChat(String chat) {
+        this.chat = chat;
     }
 }

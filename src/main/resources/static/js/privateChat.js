@@ -9,40 +9,56 @@ var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
 
 var stompClient = null;
-var username = null;
+var senderId = null;
+var senderName = null;
+var receiverId = null;
+var chatId = null;
 
-var colors = [
-    '#2196F3', '#32c787', '#00BCD4', '#ff5652',
-    '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
-];
+function provide(event) {
+    const request = new XMLHttpRequest();
+
+    var data = new FormData();
+    var v = document.querySelector('#_csrf').value.trim()
+    data.append('receiverId', document.querySelector('#receiverId').value.trim());
+
+    request.open("POST", "/privateChat", true);
+
+    request.setRequestHeader("X-CSRF-TOKEN", v);
+    request.onload = function () {
+        if (request.readyState === request.DONE) {
+            if (request.status === 200) {
+                var chat = JSON.parse(request.responseText);
+                chatId = chat.chatId
+                connect(event);
+            }
+        }
+    };
+    request.send(data);
+    event.preventDefault();
+}
 
 function connect(event) {
-    username = document.querySelector('#username').value.trim();
+    receiverId = document.querySelector('#receiverId').value.trim();
+    senderId = document.querySelector('#senderId').value.trim();
+    senderName = document.querySelector('#senderName').value.trim();
 
-    if(username) {
-        usernamePage.classList.add('hidden');
-        chatPage.classList.remove('hidden');
-
-        var socket = new SockJS('/chat');
-        stompClient = Stomp.over(socket);
-
-        stompClient.connect({}, onConnected, onError);
-    }
+    usernamePage.classList.add('hidden');
+    chatPage.classList.remove('hidden');
+    var socket = new SockJS('/chat');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, onConnected, onError);
     event.preventDefault();
 }
 
 
 function onConnected() {
-    // Subscribe to the Public Topic
-    stompClient.subscribe('/topic/public', onMessageReceived);
-
-    // Tell your username to the server
+    // Subscribe to the Special User Topic
+    stompClient.subscribe("/topic/" + chatId + "/messages", onMessageReceived);
+    connectingElement.classList.add('hidden');
     stompClient.send("/app/chat.register",
         {},
-        JSON.stringify({sender: username, type: 'JOIN'})
+        JSON.stringify({sender: senderName, chat: chatId, type: 'JOIN'})
     )
-
-    connectingElement.classList.add('hidden');
 }
 
 
@@ -57,7 +73,9 @@ function send(event) {
 
     if(messageContent && stompClient) {
         var chatMessage = {
-            sender: username,
+            sender: senderName,
+            receiver: receiverId,
+            chat: chatId,
             content: messageInput.value,
             type: 'CHAT'
         };
@@ -77,16 +95,13 @@ function onMessageReceived(payload) {
     if(message.type === 'JOIN') {
         messageElement.classList.add('event-message');
         message.content = message.sender + ' joined!';
-    } else if (message.type === 'LEAVE') {
-        messageElement.classList.add('event-message');
-        message.content = message.sender + ' left!';
     } else {
         messageElement.classList.add('chat-message');
 
         var avatarElement = document.createElement('i');
         var avatarText = document.createTextNode(message.sender[0]);
         avatarElement.appendChild(avatarText);
-        avatarElement.style['background-color'] = getAvatarColor(message.sender);
+        avatarElement.style['background-color'] = '#ffc107';
 
         messageElement.appendChild(avatarElement);
 
@@ -107,15 +122,5 @@ function onMessageReceived(payload) {
 }
 
 
-function getAvatarColor(messageSender) {
-    var hash = 0;
-    for (var i = 0; i < messageSender.length; i++) {
-        hash = 31 * hash + messageSender.charCodeAt(i);
-    }
-
-    var index = Math.abs(hash % colors.length);
-    return colors[index];
-}
-
-usernameForm.addEventListener('submit', connect, true)
+usernameForm.addEventListener('submit', provide, true)
 messageForm.addEventListener('submit', send, true)
