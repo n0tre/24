@@ -3,7 +3,8 @@ package com.ncedu.network24.networkapp.domain;
 import javax.persistence.*;
 
 @Entity
-public class Message {
+@Table(name = "message")
+public class Post {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
@@ -25,10 +26,10 @@ public class Message {
 
     private String filename;
 
-    public Message() {
+    public Post() {
     }
 
-    public Message(String text, String tag, User user) {
+    public Post(String text, String tag, User user) {
         this.text = text;
         this.tag = tag;
         this.author = user;

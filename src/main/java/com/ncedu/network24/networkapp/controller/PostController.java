@@ -1,8 +1,8 @@
 package com.ncedu.network24.networkapp.controller;
 
-import com.ncedu.network24.networkapp.domain.Message;
+import com.ncedu.network24.networkapp.domain.Post;
 import com.ncedu.network24.networkapp.domain.User;
-import com.ncedu.network24.networkapp.repositories.MessageRepo;
+import com.ncedu.network24.networkapp.repositories.PostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,9 +19,9 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
-public class MainController {
+public class PostController {
     @Autowired
-    private MessageRepo messageRepo;
+    private PostRepo postRepo;
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -35,13 +35,13 @@ public class MainController {
     public String main(
             @RequestParam(required = false, defaultValue = "") String filter,
             Model model) {
-        Iterable<Message> messages = messageRepo.findAll();
+        Iterable<Post> messages = postRepo.findAll();
 
         if (filter != null && !filter.isEmpty()) {
-            messages = messageRepo.findByTag(filter);
+            messages = postRepo.findByTag(filter);
         } else
         {
-            messages = messageRepo.findAll();
+            messages = postRepo.findAll();
         }
         model.addAttribute("messages", messages);
         model.addAttribute("filter", filter);
@@ -55,7 +55,7 @@ public class MainController {
             @RequestParam String text,
             @RequestParam String tag, Map<String, Object> model,
             @RequestParam ("file") MultipartFile file) throws IOException {
-        Message message = new Message(text, tag, user);
+        Post post = new Post(text, tag, user);
 
         if (file != null & !file.getOriginalFilename().isEmpty()) {
            File uploadDir = new File(uploadPath);
@@ -68,12 +68,12 @@ public class MainController {
             String resultFilename = uuidFile + "." + file.getOriginalFilename();
 
             file.transferTo(new File(uploadPath + "/" + resultFilename));
-            message.setFilename(resultFilename);
+            post.setFilename(resultFilename);
 
         }
-        messageRepo.save(message);
+        postRepo.save(post);
 
-        Iterable<Message> messages = messageRepo.findAll();
+        Iterable<Post> messages = postRepo.findAll();
         model.put("messages", messages);
 
         return "main";

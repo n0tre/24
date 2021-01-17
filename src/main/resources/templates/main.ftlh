@@ -12,7 +12,7 @@
 
     <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
        aria-controls="collapseExample">
-        Add new message
+        Add new post
     </a>
     <div class="collapse" id="collapseExample">
         <div class="form-group mt-3">
@@ -38,25 +38,25 @@
     </div>
 
     <div class="card-columns">
-        <#list messages as message>
+        <#list messages as post>
 
             <div class="card my-4">
                 <div>
-                    <#if message.filename??>
-                        <img src="/img/${message.filename}" class="card-img-top">
+                    <#if post.filename??>
+                        <img src="/img/${post.filename}" class="card-img-top">
                     </#if>
                 </div>
                 <div class="m-2">
-                    <span>${message.text}</span>
-                    <i>${message.tag}</i>
+                    <span>${post.text}</span>
+                    <i>${post.tag}</i>
                 </div>
                 <div class="card-footer text-muted">
-                    ${message.authorName}
+                    ${post.authorName}
                 </div>
 
             </div>
         <#else>
-            No message
+            No post
         </#list>
     </div>
 </@c.page>
