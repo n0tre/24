@@ -50,7 +50,7 @@ public class ChatController {
         return "privateChat";
     }
 
-    @PostMapping (value = "/privateChat")
+    @PostMapping(value = "/privateChat")
     public ResponseEntity<Chat> privatePage(@AuthenticationPrincipal User user, HttpServletRequest request) {
         Long receiverId = Long.parseLong(request.getParameter("receiverId"));
         Long senderId = user.getId();

@@ -39,8 +39,7 @@ public class PostController {
 
         if (filter != null && !filter.isEmpty()) {
             messages = postRepo.findByTag(filter);
-        } else
-        {
+        } else {
             messages = postRepo.findAll();
         }
         model.addAttribute("messages", messages);
@@ -54,15 +53,15 @@ public class PostController {
             @AuthenticationPrincipal User user,
             @RequestParam String text,
             @RequestParam String tag, Map<String, Object> model,
-            @RequestParam ("file") MultipartFile file) throws IOException {
+            @RequestParam("file") MultipartFile file) throws IOException {
         Post post = new Post(text, tag, user);
 
         if (file != null & !file.getOriginalFilename().isEmpty()) {
-           File uploadDir = new File(uploadPath);
+            File uploadDir = new File(uploadPath);
 
-           if (uploadDir.exists()) {
-               uploadDir.mkdir();
-           }
+            if (uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
 
             String uuidFile = UUID.randomUUID().toString();
             String resultFilename = uuidFile + "." + file.getOriginalFilename();

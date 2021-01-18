@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface ChatRepo extends CrudRepository<Chat, Long> {
     List<Chat> findChatsByFirstUserId(Long firstUserId);
+
     List<Chat> findChatsBySecondUserId(Long secondUserId);
+
     Chat findChatByFirstUserIdAndSecondUserId(Long firstUserId, Long secondUserId);
 }
