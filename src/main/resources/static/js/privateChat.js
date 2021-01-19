@@ -55,7 +55,7 @@ function onConnected() {
     // Subscribe to the Special User Topic
     stompClient.subscribe("/topic/" + chatId + "/messages", onMessageReceived);
     connectingElement.classList.add('hidden');
-    stompClient.send("/app/chat.register",
+    stompClient.send("/app/chatRegister",
         {},
         JSON.stringify({sender: senderName, chat: chatId, type: 'JOIN'})
     )
@@ -80,7 +80,7 @@ function send(event) {
             type: 'CHAT'
         };
 
-        stompClient.send("/app/chat.send", {}, JSON.stringify(chatMessage));
+        stompClient.send("/app/chatSend", {}, JSON.stringify(chatMessage));
         messageInput.value = '';
     }
     event.preventDefault();

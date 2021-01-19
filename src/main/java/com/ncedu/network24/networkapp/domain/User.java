@@ -30,6 +30,7 @@ public class User implements UserDetails {
         return roles.contains(Role.BLOCKED);
     }
 
+
     public Long getId() {
         return id;
     }

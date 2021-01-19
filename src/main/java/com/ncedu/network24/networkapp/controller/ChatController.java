@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,12 +31,12 @@ public class ChatController {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
-    @MessageMapping("/chat.register")
+    @MessageMapping("/chatRegister")
     public void register(@Payload ChatMessage chatMessage) {
         messagingTemplate.convertAndSend("/topic/" + chatMessage.getChat() + "/messages", chatMessage);
     }
 
-    @MessageMapping("/chat.send")
+    @MessageMapping("/chatSend")
     public void sendMessage(@Payload ChatMessage chatMessage) {
         messagingTemplate.convertAndSend("/topic/" + chatMessage.getChat() + "/messages", chatMessage);
     }

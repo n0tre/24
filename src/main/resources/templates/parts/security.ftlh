@@ -3,32 +3,24 @@
     known2 = Session.SPRING_SECURITY_CONTEXT??
 >
 
-<#if known2>
-    <#assign
-    user = Session.SPRING_SECURITY_CONTEXT.authentication.principal
-    name = user.getUsername()
-    isBlocked = user.isBlocked()
-    >
-<#else>
-    <#assign
-    name = "unknown"
-    isBlocked = false
-    >
-
-</#if>
-
 <#if known>
     <#assign
     user = Session.SPRING_SECURITY_CONTEXT.authentication.principal
     name = user.getUsername()
+    isBlocked = user.isBlocked()
     isAdmin = user.isAdmin()
+        isActive = user.isActive()
     >
-    <#else>
+<#else>
     <#assign
         name = "unknown"
+        isBlocked = false
         isAdmin = false
+        isActive = false
     >
 
 </#if>
+
+
 
 
