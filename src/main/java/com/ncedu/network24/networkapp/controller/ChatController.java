@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+
 
 @Controller
 public class ChatController {
@@ -41,7 +43,7 @@ public class ChatController {
         messagingTemplate.convertAndSend("/topic/" + chatMessage.getChat() + "/messages", chatMessage);
     }
 
-
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping("/privateChat")
     public String showPrivatePage(@AuthenticationPrincipal User user, Model model) {
         List<User> receivers = userRepo.findAll();

@@ -6,13 +6,15 @@ import com.ncedu.network24.networkapp.repositories.PostRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +22,6 @@ import java.util.Map;
 import java.util.UUID;
 
 @Controller
-
 public class PostController {
     @Autowired
     private PostRepo postRepo;
@@ -33,7 +34,7 @@ public class PostController {
         return "greeting";
     }
 
-    @PreAuthorize("hasAnyAuthority('USER')")
+    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     @GetMapping("/main")
     public String main(
             @RequestParam(required = false, defaultValue = "") String filter,
@@ -80,4 +81,10 @@ public class PostController {
 
         return "main";
     }
+
+    @RequestMapping(value = "/accessDenied")
+    public String accessDenied() {
+        return "accessDenied";
+    }
+
 }
