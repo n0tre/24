@@ -7,6 +7,7 @@ var messageForm = document.querySelector('#messageForm');
 var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
+var chatListForm = document.querySelector('#chatListForm')
 
 var stompClient = null;
 var senderId = null;
@@ -15,8 +16,8 @@ var receiverId = null;
 var chatId = null;
 
 function provide(event) {
-    const request = new XMLHttpRequest();
 
+    const request = new XMLHttpRequest();
     var data = new FormData();
     var v = document.querySelector('#_csrf').value.trim()
     data.append('receiverId', document.querySelector('#receiverId').value.trim());
@@ -124,3 +125,4 @@ function onMessageReceived(payload) {
 
 usernameForm.addEventListener('submit', provide, true)
 messageForm.addEventListener('submit', send, true)
+chatListForm.addEventListener('submit', provide, true)

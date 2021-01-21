@@ -37,6 +37,25 @@
     </div>
 
     <div id="chat-page" class="hidden">
+
+        <div class="chats-page-container">
+            <form id="chatListForm" name="chatListForm" method="post">
+                <div class="form-group2">
+                    <input type="hidden" id="senderId" value="${sender.id}"/>
+                    <input type="hidden" id="senderName" value="${sender.username}"/>
+                    <select name="receiverId" id="receiverId" class="form-control">
+                        <#list receivers as receiver>
+                            <option value="${receiver.id}">${receiver.username}</option>
+                        </#list>
+                    </select>
+                </div>
+                <input type="hidden" id="_csrf" name="_csrf" value="${_csrf.token}"/>
+                <div class="form-group2">
+                    <button type="submit" class="accent username-submit">Select chat</button>
+                </div>
+            </form>
+        </div>
+
         <div class="chat-container">
             <div class="chat-header">
                 <h2>24NETWORK Chat</h2>
@@ -54,8 +73,10 @@
                     </div>
                 </div>
             </form>
-        </div>
+            </div>
     </div>
+
+
 
     <script
             src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>

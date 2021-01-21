@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Set;
 
 
 @Controller
@@ -47,8 +48,13 @@ public class ChatController {
     @GetMapping("/privateChat")
     public String showPrivatePage(@AuthenticationPrincipal User user, Model model) {
         List<User> receivers = userRepo.findAll();
+        Set<Chat> chats1 = chatRepo.findChatByFirstUserId(user.getId());
+        Set<Chat> chats2 = chatRepo.findChatBySecondUserId(user.getId());
+        chats1.addAll(chats2);
+
         model.addAttribute("sender", user);
         model.addAttribute("receivers", receivers);
+        model.addAttribute("chats", chats1);
         return "privateChat";
     }
 

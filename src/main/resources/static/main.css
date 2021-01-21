@@ -61,6 +61,13 @@ body:before {
     margin-bottom: 15px;
 }
 
+
+.form-group2 {
+    margin-bottom: 15px;
+    left: 2px;
+
+}
+
 input {
     padding-left: 10px;
     outline: none;
@@ -136,6 +143,7 @@ button.accent {
     margin-top: -160px;
 }
 
+
 .username-page-container .username-submit {
     margin-top: 10px;
 }
@@ -173,7 +181,7 @@ button.accent {
 }
 
 #chat-page #messageArea {
-    height: 400px !important;
+    height: 300px !important;
 }
 
 #chat-page ul li {

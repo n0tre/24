@@ -4,11 +4,19 @@ import com.ncedu.network24.networkapp.domain.Chat;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ChatRepo extends CrudRepository<Chat, Long> {
-    List<Chat> findChatsByFirstUserId(Long firstUserId);
-
-    List<Chat> findChatsBySecondUserId(Long secondUserId);
 
     Chat findChatByFirstUserIdAndSecondUserId(Long firstUserId, Long secondUserId);
+
+
+    Set<Chat> findChatByFirstUserId(Long userId);
+
+    Set<Chat> findChatBySecondUserId(Long userId);
+
+    List<Chat> findAllByFirstUserId(Long userId);
+
+    List<Chat> findAllBySecondUserId(Long userId);
+
 }
