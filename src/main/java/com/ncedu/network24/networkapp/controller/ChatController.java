@@ -3,6 +3,7 @@ package com.ncedu.network24.networkapp.controller;
 import com.ncedu.network24.networkapp.domain.Chat;
 import com.ncedu.network24.networkapp.domain.User;
 import com.ncedu.network24.networkapp.domain.ChatMessage;
+import com.ncedu.network24.networkapp.repositories.ChatMessageRepo;
 import com.ncedu.network24.networkapp.repositories.ChatRepo;
 import com.ncedu.network24.networkapp.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class ChatController {
     private ChatRepo chatRepo;
 
     @Autowired
+    private ChatMessageRepo chatMessageRepo;
+
+    @Autowired
     private SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/chatRegister")
@@ -41,6 +45,7 @@ public class ChatController {
 
     @MessageMapping("/chatSend")
     public void sendMessage(@Payload ChatMessage chatMessage) {
+        chatMessageRepo.save(chatMessage);
         messagingTemplate.convertAndSend("/topic/" + chatMessage.getChat() + "/messages", chatMessage);
     }
 
@@ -75,5 +80,12 @@ public class ChatController {
             chat = newChat;
         }
         return ResponseEntity.ok(chat);
+    }
+
+    @PostMapping(value = "/privateChatMessages")
+    public ResponseEntity<List<ChatMessage>> getPrivateChatMessages(HttpServletRequest request) {
+        String chatId = request.getParameter("chatId");
+        List<ChatMessage> messages = chatMessageRepo.getChatMessagesByChat(chatId);
+        return ResponseEntity.ok(messages);
     }
 }

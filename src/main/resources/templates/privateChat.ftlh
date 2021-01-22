@@ -15,31 +15,10 @@
     <noscript>
         <h2>Sorry! Your browser doesn't support Javascript</h2>
     </noscript>
-    <div id="username-page">
-        <div class="username-page-container">
-            <h1 class="title">Select username for chatting</h1>
-            <form id="usernameForm" name="usernameForm" method="post">
-                <div class="form-group">
-                    <input type="hidden" id="senderId" value="${sender.id}"/>
-                    <input type="hidden" id="senderName" value="${sender.username}"/>
-                    <select name="receiverId" id="receiverId" class="form-control">
-                        <#list receivers as receiver>
-                            <option value="${receiver.id}">${receiver.username}</option>
-                        </#list>
-                    </select>
-                </div>
-                <input type="hidden" id="_csrf" name="_csrf" value="${_csrf.token}"/>
-                <div class="form-group">
-                    <button type="submit" class="accent username-submit">Start Chatting</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="chat-page" class="hidden">
+    <div id="chat-page">
 
         <div class="chats-page-container">
-            <form id="chatListForm" name="chatListForm" method="post">
+            <form id="usernameForm" name="usernameForm" method="post">
                 <div class="form-group2">
                     <input type="hidden" id="senderId" value="${sender.id}"/>
                     <input type="hidden" id="senderName" value="${sender.username}"/>
@@ -60,7 +39,7 @@
             <div class="chat-header">
                 <h2>24NETWORK Chat</h2>
             </div>
-            <div class="connecting">Connecting...</div>
+            <div class="connecting hidden">Connecting...</div>
             <ul id="messageArea">
 
             </ul>

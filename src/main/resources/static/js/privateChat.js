@@ -14,9 +14,11 @@ var senderId = null;
 var senderName = null;
 var receiverId = null;
 var chatId = null;
+var chatMessages = null;
+var socket = null;
 
 function provide(event) {
-
+    clearChat();
     const request = new XMLHttpRequest();
     var data = new FormData();
     var v = document.querySelector('#_csrf').value.trim()
@@ -30,31 +32,62 @@ function provide(event) {
             if (request.status === 200) {
                 var chat = JSON.parse(request.responseText);
                 chatId = chat.chatId
-                connect(event);
+
+                const requestChatMessages = new XMLHttpRequest();
+                var d = new FormData();
+                d.append('chatId', chatId);
+
+                requestChatMessages.open("POST", "/privateChatMessages", true);
+
+                requestChatMessages.setRequestHeader("X-CSRF-TOKEN", v);
+                requestChatMessages.onload = function () {
+                    if (requestChatMessages.readyState === request.DONE) {
+                        if (requestChatMessages.status === 200) {
+                            chatMessages = JSON.parse(requestChatMessages.responseText);
+                            getChatMessages();
+                            connect(event);
+                        }
+                    }
+                };
+                requestChatMessages.send(d);
             }
         }
     };
     request.send(data);
+
     event.preventDefault();
+}
+
+function clearChat() {
+    $('.chat-message').remove();
+    $('.event-message').remove();
+    if (stompClient != null) {
+        stompClient.unsubscribe();
+        stompClient.disconnect();
+        socket.close();
+        socket = null;
+        stompClient = null;
+    }
 }
 
 function connect(event) {
     receiverId = document.querySelector('#receiverId').value.trim();
     senderId = document.querySelector('#senderId').value.trim();
     senderName = document.querySelector('#senderName').value.trim();
-
-    usernamePage.classList.add('hidden');
-    chatPage.classList.remove('hidden');
-    var socket = new SockJS('/chat');
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, onConnected, onError);
+    if (stompClient == null) {
+        socket = new SockJS('/chat');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, onConnected, onError);
+    }
     event.preventDefault();
 }
 
 
 function onConnected() {
     // Subscribe to the Special User Topic
+    connectingElement.classList.remove('hidden');
     stompClient.subscribe("/topic/" + chatId + "/messages", onMessageReceived);
+
     connectingElement.classList.add('hidden');
     stompClient.send("/app/chatRegister",
         {},
@@ -62,6 +95,13 @@ function onConnected() {
     )
 }
 
+function getChatMessages() {
+    if (chatMessages.length !== 0) {
+        jQuery.each(chatMessages, function (i, message) {
+            addMessageElement(message);
+        });
+    }
+}
 
 function onError(error) {
     connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
@@ -90,7 +130,10 @@ function send(event) {
 
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
+    addMessageElement(message);
+}
 
+function addMessageElement(message) {
     var messageElement = document.createElement('li');
 
     if(message.type === 'JOIN') {
@@ -122,7 +165,5 @@ function onMessageReceived(payload) {
     messageArea.scrollTop = messageArea.scrollHeight;
 }
 
-
 usernameForm.addEventListener('submit', provide, true)
 messageForm.addEventListener('submit', send, true)
-chatListForm.addEventListener('submit', provide, true)

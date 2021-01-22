@@ -1,6 +1,16 @@
 package com.ncedu.network24.networkapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "chat_messages")
+@JsonAutoDetect
 public class ChatMessage {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long messageId;
     private String content;
     private String sender;
     private String receiver;
@@ -49,5 +59,13 @@ public class ChatMessage {
 
     public void setChat(String chat) {
         this.chat = chat;
+    }
+
+    public Long getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(Long messageId) {
+        this.messageId = messageId;
     }
 }
