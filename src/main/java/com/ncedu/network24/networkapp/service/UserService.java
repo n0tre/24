@@ -40,7 +40,6 @@ public class UserService implements UserDetailsService {
     public void lock(User user) {
         user.setAccountNonLocked(false);
         user.setLockTime(new Date());
-
         userRepo.save(user);
     }
 
@@ -59,5 +58,17 @@ public class UserService implements UserDetailsService {
         }
 
         return false;
+    }
+
+    public void lockUser(User user) {
+        user.setAccountNonLocked(false);
+        userRepo.save(user);
+    }
+    public void unlockUser(User user) {
+        user.setAccountNonLocked(true);
+        user.setLockTime(null);
+        user.setFailedAttempt(0);
+        userRepo.save(user);
+
     }
 }

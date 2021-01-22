@@ -37,9 +37,12 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
                     exception = new LockedException("Your account has been locked due to 5 failed attempts."
                             + " It will be unlocked after 24 hours.");
                 }
-            } else if (!user.isAccountNonLocked()) {
+            } else if (!user.isAccountNonLocked() & (user.getLockTime() != null)) {
                 if (userService.unlockWhenTimeExpired(user)) {
                     exception = new LockedException("Your account has been unlocked. Please try to login again.");
+                }
+                else {
+                    exception = new LockedException("Your account banned by admin");
                 }
             }
 

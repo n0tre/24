@@ -40,7 +40,15 @@ public class RegistrationController {
         }
         user.setActive(true);
         user.setRoles(Collections.singleton(Role.USER));
-        userRepo.save(user);
-        return "redirect:/login";
+        try {
+            userRepo.save(user);
+            return "redirect:/login";
+        }
+        catch (Exception e) {
+            model.addAttribute("usernameError", "User with such username already exists!");
+            return "registration";
+        }
+
+
     }
 }
