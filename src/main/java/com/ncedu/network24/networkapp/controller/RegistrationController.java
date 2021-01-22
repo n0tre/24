@@ -25,11 +25,8 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public synchronized String addUser(@Valid User user, BindingResult bindingResult, Model model) {
-        if (user.getPassword() != null && !user.getPassword().equals(user.getPassword2())) {
-            model.addAttribute("passwordError", "Passwords are different!");
-            return "registration";
-        }
+    public String addUser(@Valid User user, BindingResult bindingResult, Model model) {
+
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = UtilsController.getErrors(bindingResult);
             model.mergeAttributes(errors);
@@ -38,7 +35,7 @@ public class RegistrationController {
         }
         User userFromDb = userRepo.findByUsername(user.getUsername());
         if (userFromDb != null) {
-            model.addAttribute("usernameError", "User exists!");
+            model.addAttribute("usernameError", "User with such username already exists!");
             return "registration";
         }
         user.setActive(true);

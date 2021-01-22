@@ -17,4 +17,12 @@ User editor
 
     </form>
 
+    <form action="/user/block" method="post">
+        <input type="text" name="username" value="${user.username}">
+
+        <input type="hidden" value="${user.id}" name="userId">
+        <input type="hidden" value="${_csrf.token}" name="_csrf">
+        <button type="submit">Block User</button>
+    </form>
+
 </@c.page>

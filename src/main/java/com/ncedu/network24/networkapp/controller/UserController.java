@@ -3,6 +3,7 @@ package com.ncedu.network24.networkapp.controller;
 import com.ncedu.network24.networkapp.domain.Role;
 import com.ncedu.network24.networkapp.domain.User;
 import com.ncedu.network24.networkapp.repositories.UserRepo;
+import com.ncedu.network24.networkapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,9 @@ import java.util.stream.Collectors;
 public class UserController {
     @Autowired
     private UserRepo userRepo;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public String userList(Model model) {
@@ -56,6 +60,16 @@ public class UserController {
 
         userRepo.save(user);
 
+        return "redirect:/user";
+    }
+
+    @PostMapping("/block")
+    public String blockUser (@RequestParam("userId") User user) {
+        if (user != null) {
+            if (user.isEnabled() && user.isAccountNonLocked()) {
+                userService.lock(user);
+            }
+        }
         return "redirect:/user";
     }
 

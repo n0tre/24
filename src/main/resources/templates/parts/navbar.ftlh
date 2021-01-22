@@ -9,9 +9,6 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <#if isBlocked>
-                You are blocked
-            <#else>
             <li class="nav-item">
                 <a class="nav-link" href="/">Home</a>
             </li>
@@ -25,7 +22,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/user">User list</a>
                 </li>
-            </#if>
             </#if>
         </ul>
 

@@ -38,8 +38,7 @@ public class PostController {
     public String main(
             @RequestParam(required = false, defaultValue = "") String filter,
             Model model) {
-        Iterable<Post> messages = postRepo.findAll();
-
+        Iterable<Post> messages;
         if (filter != null && !filter.isEmpty()) {
             messages = postRepo.findByTag(filter);
         } else {
@@ -86,10 +85,7 @@ public class PostController {
         }
         model.addAttribute("post", null);
         postRepo.save(post);
-
-
-        Iterable<Post> messages = postRepo.findAll();
-        model.addAttribute("messages", messages);
+        model.addAttribute("messages", postRepo.findAll());
 
         return "main";
     }

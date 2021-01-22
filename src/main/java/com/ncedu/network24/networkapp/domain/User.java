@@ -1,11 +1,12 @@
 package com.ncedu.network24.networkapp.domain;
-
+import com.ncedu.network24.networkapp.service.UserService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -15,15 +16,31 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotBlank(message = "Username cannot be empty")
+    @Column(unique = true)
     private String username;
     @NotBlank(message = "Password cannot be empty")
     private String password;
 
+    private boolean enabled;
 
+    @Column(name = "account_non_locked")
+    private boolean accountNonLocked;
 
-    @Transient
-    @NotBlank(message = "Password confirmation cannot be empty")
-    private String password2;
+    public boolean isAccountNonLocked() {
+        return accountNonLocked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Column(name = "failed_attempt")
+    private int failedAttempt;
+
+    @Column(name = "lock_time")
+    private Date lockTime;
+
     private boolean active;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
@@ -31,13 +48,16 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    private static final long serialVersionUID = 1L;
+
+
+    public User() {
+    }
+
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
     }
 
-    public boolean isBlocked() {
-        return roles.contains(Role.BLOCKED);
-    }
 
 
     public Long getId() {
@@ -57,28 +77,17 @@ public class User implements UserDetails {
         return true;
     }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return !roles.contains(Role.BLOCKED);
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return isActive();
-    }
-
     public void setUsername(String username) {
         this.username = username;
     }
 
+    public boolean isEnabled() {
+        return isActive();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+        return roles;
     }
 
     public String getPassword() {
@@ -105,11 +114,29 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public String getPassword2() {
-        return password2;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
-    public void setPassword2(String password2) {
-        this.password2 = password2;
+    public void setAccountNonLocked(boolean accountNonLocked) {
+        this.accountNonLocked = accountNonLocked;
     }
+
+    public int getFailedAttempt() {
+        return failedAttempt;
+    }
+
+    public void setFailedAttempt(int failedAttempt) {
+        this.failedAttempt = failedAttempt;
+    }
+
+    public Date getLockTime() {
+        return lockTime;
+    }
+
+    public void setLockTime(Date lockTime) {
+        this.lockTime = lockTime;
+    }
+
+
 }
