@@ -1,7 +1,7 @@
 package com.ncedu.network24.networkapp.service;
 
+import com.ncedu.network24.networkapp.component.SessionUtils;
 import com.ncedu.network24.networkapp.domain.User;
-
 import com.ncedu.network24.networkapp.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +21,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepo userRepo;
 
+
+    @Autowired
+    private SessionUtils sessionUtils;
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -63,7 +66,10 @@ public class UserService implements UserDetailsService {
     public void lockUser(User user) {
         user.setAccountNonLocked(false);
         userRepo.save(user);
+        sessionUtils.expireUserSessions(user.getUsername());
+        sessionUtils.killExpiredSessionForSure(user.getUsername());
     }
+
     public void unlockUser(User user) {
         user.setAccountNonLocked(true);
         user.setLockTime(null);

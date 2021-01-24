@@ -41,9 +41,6 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
                 if (userService.unlockWhenTimeExpired(user)) {
                     exception = new LockedException("Your account has been unlocked. Please try to login again.");
                 }
-                else {
-                    exception = new LockedException("Your account banned by admin");
-                }
             }
 
         }

@@ -6,7 +6,6 @@ import com.ncedu.network24.networkapp.repositories.UserRepo;
 import com.ncedu.network24.networkapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.LockedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -64,7 +63,7 @@ public class UserController {
     }
 
     @PostMapping("/user/block")
-    public String blockUser (@RequestParam("userId") User user) {
+    public String blockUser(@RequestParam("userId") User user) {
         if (user != null) {
             if (user.isEnabled() && user.isAccountNonLocked()) {
                 userService.lockUser(user);
@@ -74,7 +73,7 @@ public class UserController {
     }
 
     @PostMapping("/user/unblock")
-    public String unBlockUser (@RequestParam("userId") User user) {
+    public String unBlockUser(@RequestParam("userId") User user) {
         if (!user.isAccountNonLocked()) {
             userService.unlockUser(user);
         }

@@ -12,6 +12,7 @@ public class Chat implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(unique = true)
     private Long chatId;
     private Long firstUserId;
     private Long secondUserId;

@@ -18,7 +18,7 @@ public class ChatMessage {
     private MessageType type;
 
     public enum MessageType {
-        CHAT, LEAVE, JOIN
+        CHAT, JOIN
     }
 
     public String getContent() {

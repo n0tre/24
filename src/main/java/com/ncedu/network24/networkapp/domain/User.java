@@ -1,5 +1,4 @@
 package com.ncedu.network24.networkapp.domain;
-import com.ncedu.network24.networkapp.service.UserService;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -21,10 +20,10 @@ public class User implements UserDetails {
     @NotBlank(message = "Password cannot be empty")
     private String password;
 
-    private boolean enabled;
+    private boolean enabled = true;
 
     @Column(name = "account_non_locked")
-    private boolean accountNonLocked;
+    private boolean accountNonLocked = true;
 
     public boolean isAccountNonLocked() {
         return accountNonLocked;

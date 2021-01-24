@@ -76,7 +76,11 @@ public class ChatController {
             Chat newChat = new Chat();
             newChat.setFirstUserId(receiverId);
             newChat.setSecondUserId(senderId);
-            chatRepo.save(newChat);
+            try {
+                chatRepo.save(newChat);
+            } catch (Exception e) {
+            }
+
             chat = newChat;
         }
         return ResponseEntity.ok(chat);
