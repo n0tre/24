@@ -20,7 +20,7 @@ public class User implements UserDetails {
     @NotBlank(message = "Password cannot be empty")
     private String password;
 
-    private boolean enabled = true;
+    private boolean enabled;
 
     @Column(name = "account_non_locked")
     private boolean accountNonLocked = true;
@@ -40,7 +40,6 @@ public class User implements UserDetails {
     @Column(name = "lock_time")
     private Date lockTime;
 
-    private boolean active;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
@@ -81,7 +80,7 @@ public class User implements UserDetails {
     }
 
     public boolean isEnabled() {
-        return isActive();
+        return enabled;
     }
 
     @Override
@@ -97,13 +96,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
 
     public Set<Role> getRoles() {
         return roles;

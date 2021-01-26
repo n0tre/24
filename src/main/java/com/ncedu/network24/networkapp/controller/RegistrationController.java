@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.dao.*;
+
 
 import javax.validation.Valid;
 import java.util.Collections;
@@ -33,21 +35,19 @@ public class RegistrationController {
 
             return "registration";
         }
-        User userFromDb = userRepo.findByUsername(user.getUsername());
-        if (userFromDb != null) {
-            model.addAttribute("usernameError", "User with such username already exists!");
-            return "registration";
-        }
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
-        try {
+
+        try
+          { user.setEnabled(true);
+            user.setRoles(Collections.singleton(Role.USER));
             userRepo.save(user);
             return "redirect:/login";
         }
-        catch (Exception e) {
+        catch (DataIntegrityViolationException e) {
             model.addAttribute("usernameError", "User with such username already exists!");
             return "registration";
         }
+
+
 
 
     }

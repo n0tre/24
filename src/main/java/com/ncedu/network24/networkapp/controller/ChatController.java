@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.dao.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -78,7 +79,7 @@ public class ChatController {
             newChat.setSecondUserId(senderId);
             try {
                 chatRepo.save(newChat);
-            } catch (Exception e) {
+            } catch (DataIntegrityViolationException e) {
             }
 
             chat = newChat;
