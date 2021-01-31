@@ -37,7 +37,7 @@ public class SessionUtils {
             requestHeaders.add("Cookie", "JSESSIONID=" + id);
             HttpEntity requestEntity = new HttpEntity(null, requestHeaders);
             RestTemplate rt = new RestTemplate();
-            rt.exchange("http://localhost:8080", HttpMethod.GET,
+            rt.exchange("/", HttpMethod.GET,
                     requestEntity, String.class);
         } catch (Exception ex) {
         }

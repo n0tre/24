@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -61,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean(name = "sessionRegistry")
-    SessionRegistry sessionRegistry() {
+    public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
     }
 

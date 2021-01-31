@@ -4,6 +4,7 @@ import com.ncedu.network24.networkapp.component.SessionUtils;
 import com.ncedu.network24.networkapp.domain.User;
 import com.ncedu.network24.networkapp.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,10 @@ import java.util.Date;
 @Service
 @Transactional
 public class UserService implements UserDetailsService {
-    public static final int MAX_FAILED_ATTEMPTS = 5;
 
-    private static final long LOCK_TIME_DURATION = 24 * 60 * 60 * 1000;
+
+    @Value("${LOCK_TIME_DURATION}")
+    private long LOCK_TIME_DURATION;
 
     @Autowired
     private UserRepo userRepo;

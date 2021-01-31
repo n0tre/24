@@ -8,6 +8,7 @@ import com.ncedu.network24.networkapp.domain.User;
 import com.ncedu.network24.networkapp.repositories.UserRepo;
 import com.ncedu.network24.networkapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
@@ -21,6 +22,8 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
     @Autowired
     private UserService userService;
 
+    @Value("${MAX_FAILED_ATTEMPTS}")
+    public int MAX_FAILED_ATTEMPTS;
 
 
     @Override
@@ -32,7 +35,7 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
 
         if (user != null) {
             if (user.isEnabled() && user.isAccountNonLocked()) {
-                if (user.getFailedAttempt() < UserService.MAX_FAILED_ATTEMPTS - 1) {
+                if (user.getFailedAttempt() < MAX_FAILED_ATTEMPTS - 1) {
                     userService.increaseFailedAttempts(user);
                 } else {
                     userService.lock(user);

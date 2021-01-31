@@ -1,16 +1,24 @@
 package com.ncedu.network24.networkapp.service;
 
 import com.ncedu.network24.networkapp.domain.Chat;
+import com.ncedu.network24.networkapp.domain.ChatMessage;
+import com.ncedu.network24.networkapp.domain.User;
+import com.ncedu.network24.networkapp.repositories.ChatMessageRepo;
 import com.ncedu.network24.networkapp.repositories.ChatRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ChatService {
 
     @Autowired
     private ChatRepo chatRepo;
+
+    @Autowired
+    private ChatMessageRepo chatMessageRepo;
 
     public Chat findChat(Long receiverId, Long senderId) {
         Chat chat;
@@ -30,4 +38,20 @@ public class ChatService {
         }
         return chat;
     }
+
+    public void save(ChatMessage chatMessage) {
+        chatMessageRepo.save(chatMessage);
+    }
+
+    public List<User> getReceivers(User user) {
+        List<User> receivers = chatRepo.listOfChats(user.getId(), user.getId());
+        return receivers;
+    }
+
+    public List<ChatMessage> getChatMessages(String chatId) {
+        List<ChatMessage> messages = chatMessageRepo.getChatMessagesByChat(chatId);
+        return messages;
+    }
+
+
 }
