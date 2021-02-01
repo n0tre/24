@@ -3,6 +3,7 @@ package com.ncedu.network24.networkapp.config;
 import com.ncedu.network24.networkapp.component.CustomLoginFailureHandler;
 import com.ncedu.network24.networkapp.component.CustomLoginSuccessHandler;
 import com.ncedu.network24.networkapp.service.UserService;
+import com.ncedu.network24.networkapp.service.WebSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -74,6 +75,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService)
-                .passwordEncoder(NoOpPasswordEncoder.getInstance());
+                .passwordEncoder(WebSecurityService.getInstance());
     }
 }
