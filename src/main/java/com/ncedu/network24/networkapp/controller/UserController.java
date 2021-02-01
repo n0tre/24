@@ -2,7 +2,6 @@ package com.ncedu.network24.networkapp.controller;
 
 import com.ncedu.network24.networkapp.domain.Role;
 import com.ncedu.network24.networkapp.domain.User;
-import com.ncedu.network24.networkapp.repositories.UserRepo;
 import com.ncedu.network24.networkapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,15 +17,13 @@ import java.util.stream.Collectors;
 @Controller
 @PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
-    @Autowired
-    private UserRepo userRepo;
 
     @Autowired
     private UserService userService;
 
     @GetMapping("/user")
     public String userList(Model model) {
-        model.addAttribute("users", userRepo.findAll());
+        model.addAttribute("users", userService.findAll());
         return "userList";
     }
 
@@ -57,7 +54,7 @@ public class UserController {
         }
 
 
-        userRepo.save(user);
+        userService.saveUser(user);
 
         return "redirect:/user";
     }

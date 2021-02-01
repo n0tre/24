@@ -2,7 +2,7 @@ package com.ncedu.network24.networkapp.controller;
 
 import com.ncedu.network24.networkapp.domain.Post;
 import com.ncedu.network24.networkapp.domain.User;
-import com.ncedu.network24.networkapp.repositories.PostRepo;
+import com.ncedu.network24.networkapp.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,11 +22,15 @@ import java.util.UUID;
 
 @Controller
 public class PostController {
+
     @Autowired
-    private PostRepo postRepo;
+    private PostService postService;
 
     @Value("${upload.path}")
     private String uploadPath;
+
+    @Value("${FILE_FORMATS}")
+    private String fileFormats;
 
     @GetMapping("/")
     public String greeting(String name, Map<String, Object> model) {
@@ -40,9 +44,9 @@ public class PostController {
             Model model) {
         Iterable<Post> messages;
         if (filter != null && !filter.isEmpty()) {
-            messages = postRepo.findByTag(filter);
+            messages = postService.findByTag(filter);
         } else {
-            messages = postRepo.findAll();
+            messages = postService.findAll();
         }
         model.addAttribute("messages", messages);
         model.addAttribute("filter", filter);
@@ -60,14 +64,13 @@ public class PostController {
         post.setAuthor(user);
 
         if (bindingResult.hasErrors()) {
-            Map<String, String> errorsMap = UtilsController.getErrors(bindingResult);
+            Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errorsMap);
             model.addAttribute("post", post);
 
         } else {
-            if (!(file.getContentType().equalsIgnoreCase("png/jpeg"))) {
-
-                if (file != null & !file.getOriginalFilename().isEmpty()) {
+            if (file != null) {
+                if (!(file.getContentType().equalsIgnoreCase(fileFormats)) & (!file.getOriginalFilename().isEmpty())) {
                     File uploadDir = new File(uploadPath);
                     if (uploadDir.exists()) {
                         uploadDir.mkdir();
@@ -84,8 +87,8 @@ public class PostController {
             }
         }
         model.addAttribute("post", null);
-        postRepo.save(post);
-        model.addAttribute("messages", postRepo.findAll());
+        postService.savePost(post);
+        model.addAttribute("messages", postService.findAll());
 
         return "main";
     }

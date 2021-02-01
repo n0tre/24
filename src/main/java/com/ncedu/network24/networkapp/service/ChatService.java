@@ -5,9 +5,11 @@ import com.ncedu.network24.networkapp.domain.ChatMessage;
 import com.ncedu.network24.networkapp.domain.User;
 import com.ncedu.network24.networkapp.repositories.ChatMessageRepo;
 import com.ncedu.network24.networkapp.repositories.ChatRepo;
+import com.ncedu.network24.networkapp.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 
@@ -16,6 +18,9 @@ public class ChatService {
 
     @Autowired
     private ChatRepo chatRepo;
+
+    @Autowired
+    private UserRepo userRepo;
 
     @Autowired
     private ChatMessageRepo chatMessageRepo;
@@ -27,12 +32,13 @@ public class ChatService {
         } else if (chatRepo.findChatByFirstUserIdAndSecondUserId(senderId, receiverId) != null) {
             chat = chatRepo.findChatByFirstUserIdAndSecondUserId(senderId, receiverId);
         } else {
+
             Chat newChat = new Chat();
             newChat.setFirstUserId(receiverId);
             newChat.setSecondUserId(senderId);
             try {
                 chatRepo.save(newChat);
-            } catch (DataIntegrityViolationException e) {
+            } catch (DataIntegrityViolationException exception) {
             }
             chat = newChat;
         }
@@ -44,7 +50,8 @@ public class ChatService {
     }
 
     public List<User> getReceivers(User user) {
-        List<User> receivers = chatRepo.listOfChats(user.getId(), user.getId());
+        List<User> receivers = userRepo.findAll();
+        ;
         return receivers;
     }
 

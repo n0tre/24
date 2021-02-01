@@ -24,7 +24,7 @@ public class User implements UserDetails {
     private boolean enabled;
 
     @Column(name = "account_non_locked")
-    private boolean accountNonLocked = true;
+    private boolean accountNonLocked;
 
     public boolean isAccountNonLocked() {
         return accountNonLocked;

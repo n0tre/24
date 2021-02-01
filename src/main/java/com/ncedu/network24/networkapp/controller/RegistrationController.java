@@ -2,8 +2,9 @@ package com.ncedu.network24.networkapp.controller;
 
 import com.ncedu.network24.networkapp.domain.Role;
 import com.ncedu.network24.networkapp.domain.User;
-import com.ncedu.network24.networkapp.repositories.UserRepo;
+import com.ncedu.network24.networkapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,8 +19,12 @@ import java.util.Map;
 
 @Controller
 public class RegistrationController {
+
     @Autowired
-    private UserRepo userRepo;
+    private UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/registration")
     public String registration() {
@@ -30,7 +35,7 @@ public class RegistrationController {
     public String addUser(@Valid User user, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
-            Map<String, String> errors = UtilsController.getErrors(bindingResult);
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
 
             return "registration";
@@ -38,8 +43,10 @@ public class RegistrationController {
 
         try {
             user.setEnabled(true);
+            user.setAccountNonLocked(true);
             user.setRoles(Collections.singleton(Role.USER));
-            userRepo.save(user);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userService.saveUser(user);
             return "redirect:/login";
         } catch (DataIntegrityViolationException e) {
             model.addAttribute("usernameError", "User with such username already exists!");

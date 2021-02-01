@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Transactional
@@ -23,9 +24,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepo userRepo;
 
-
     @Autowired
     private SessionUtils sessionUtils;
+
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -78,5 +79,13 @@ public class UserService implements UserDetailsService {
         user.setFailedAttempt(0);
         userRepo.save(user);
 
+    }
+
+    public void saveUser(User user) {
+        userRepo.save(user);
+    }
+
+    public List<User> findAll() {
+        return userRepo.findAll();
     }
 }
