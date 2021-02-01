@@ -1,4 +1,5 @@
 <#import "parts/common.ftlh" as c>
+    <#import "parts/pager.ftlh" as p>
 
 <@c.page>
     <div class="form-row">
@@ -43,8 +44,9 @@
         </div>
     </div>
 
+    <@p.pager page url />
     <div class="card-columns">
-        <#list messages as post>
+        <#list page.content as post>
 
             <div class="card my-4">
                 <div>
@@ -65,4 +67,5 @@
             No post
         </#list>
     </div>
+    <@p.pager page url/>
 </@c.page>

@@ -5,6 +5,10 @@ import com.ncedu.network24.networkapp.domain.User;
 import com.ncedu.network24.networkapp.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -41,14 +45,16 @@ public class PostController {
     @GetMapping("/main")
     public String main(
             @RequestParam(required = false, defaultValue = "") String filter,
-            Model model) {
-        Iterable<Post> messages;
+            Model model,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Post> page;
         if (filter != null && !filter.isEmpty()) {
-            messages = postService.findByTag(filter);
+            page = postService.findByTag(filter, pageable);
         } else {
-            messages = postService.findAll();
+            page = postService.findAll(pageable);
         }
-        model.addAttribute("messages", messages);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/main");
         model.addAttribute("filter", filter);
 
         return "main";
@@ -60,11 +66,16 @@ public class PostController {
             @Valid Post post,
             BindingResult bindingResult,
             Model model,
-            @RequestParam("file") MultipartFile file) throws IOException {
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam("file") MultipartFile file
+            )
+            throws IOException
+    {
         post.setAuthor(user);
 
         if (bindingResult.hasErrors()) {
             Map<String, String> errorsMap = ControllerUtils.getErrors(bindingResult);
+
             model.mergeAttributes(errorsMap);
             model.addAttribute("post", post);
 
@@ -88,7 +99,9 @@ public class PostController {
         }
         model.addAttribute("post", null);
         postService.savePost(post);
-        model.addAttribute("messages", postService.findAll());
+
+       Page<Post> page = postService.findAll(pageable);
+       model.addAttribute("page", page);
 
         return "main";
     }
