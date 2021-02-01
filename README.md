@@ -1,4 +1,4 @@
-# 24NETWORK is a Social Network Web Application created as a NetCracker learning Project.
+# 24NETWORK is a Social Network Web Application created as a NetCracker education Project.
 
 Project's key features include:
 - Sign-In / Sign-Up 
