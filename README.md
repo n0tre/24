@@ -13,7 +13,7 @@ Technology Stack:
 - FreeMarkerTemplate; Bootstrap; JS
 
 Database : 
-- PostgreSQL
+- PostgreSQL + Flyway
 
 Registration page 
 - Sign-In / Sign-Up : 
