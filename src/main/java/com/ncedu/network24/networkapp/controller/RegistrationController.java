@@ -36,18 +36,15 @@ public class RegistrationController {
             return "registration";
         }
 
-        try
-          { user.setEnabled(true);
+        try {
+            user.setEnabled(true);
             user.setRoles(Collections.singleton(Role.USER));
             userRepo.save(user);
             return "redirect:/login";
-        }
-        catch (DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException e) {
             model.addAttribute("usernameError", "User with such username already exists!");
             return "registration";
         }
-
-
 
 
     }

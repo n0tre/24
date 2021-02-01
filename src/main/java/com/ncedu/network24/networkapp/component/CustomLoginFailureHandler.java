@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ncedu.network24.networkapp.domain.User;
-import com.ncedu.network24.networkapp.repositories.UserRepo;
 import com.ncedu.network24.networkapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

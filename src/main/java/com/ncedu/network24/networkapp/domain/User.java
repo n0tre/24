@@ -1,4 +1,5 @@
 package com.ncedu.network24.networkapp.domain;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -55,7 +56,6 @@ public class User implements UserDetails {
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);
     }
-
 
 
     public Long getId() {
