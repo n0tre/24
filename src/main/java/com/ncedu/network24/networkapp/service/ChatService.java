@@ -37,7 +37,6 @@ public class ChatService {
             newChat.setFirstUserId(receiverId);
             newChat.setSecondUserId(senderId);
             try {
-                Thread.sleep(10000);
                 chatRepo.save(newChat);
             } catch (DataIntegrityViolationException | InterruptedException exception) {
                 System.out.println("Data Integrity Exception!");
