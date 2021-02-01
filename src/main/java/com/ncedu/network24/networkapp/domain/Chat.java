@@ -6,18 +6,17 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "chats", uniqueConstraints = @UniqueConstraint(
-        columnNames = {"firstUserId", "secondUserId"}))
+@Table(name = "chats")
 @JsonAutoDetect
 public class Chat implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    //@Column(name = "chat_id")
+    @Column(name = "chat_id")
     private Long chatId;
-    // @Column(name = "first_user_id")
+    @Column(name = "first_user_id")
     private Long firstUserId;
-    // @Column(name = "second_user_id")
+    @Column(name = "second_user_id")
     private Long secondUserId;
 
     public Long getChatId() {

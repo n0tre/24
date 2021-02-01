@@ -13,14 +13,14 @@ public class PostService {
     PostRepo postRepo;
 
     public Page<Post> findByTag(String filter, Pageable pageable) {
-        return postRepo.findByTag(filter, pageable );
+        return postRepo.findByTag(filter, pageable);
     }
 
     public Page<Post> findAll(Pageable pageable) {
         return postRepo.findAll(pageable);
     }
 
-    public Iterable<Post> findAllPosts(){
+    public Iterable<Post> findAllPosts() {
         return postRepo.findAll();
     }
 

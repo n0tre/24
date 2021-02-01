@@ -14,7 +14,9 @@ create table chats
                chat_id        int8 not null,
                first_user_id  int8,
                second_user_id int8,
-               primary key (chat_id)
+               primary key (chat_id),
+               unique (first_user_id, second_user_id)
+
            );
 create table message
            (

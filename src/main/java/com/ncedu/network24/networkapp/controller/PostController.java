@@ -68,9 +68,8 @@ public class PostController {
             Model model,
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam("file") MultipartFile file
-            )
-            throws IOException
-    {
+    )
+            throws IOException {
         post.setAuthor(user);
 
         if (bindingResult.hasErrors()) {
@@ -100,8 +99,8 @@ public class PostController {
         model.addAttribute("post", null);
         postService.savePost(post);
 
-       Page<Post> page = postService.findAll(pageable);
-       model.addAttribute("page", page);
+        Page<Post> page = postService.findAll(pageable);
+        model.addAttribute("page", page);
 
         return "main";
     }
