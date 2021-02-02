@@ -16,14 +16,14 @@ Database :
 - PostgreSQL + Flyway
 
 Registration page 
-- Sign-In / Sign-Up : 
+- Sign-In / Sign-Up 
 
 ![Снимок экрана 2021-02-01 в 23 15 04](https://user-images.githubusercontent.com/31729053/106506591-5a48b400-64e3-11eb-9807-73566807374a.png)
 
 Feed page
 - Create/Show posts messages with hashtags & files 
 - Search messages
-- Pagination : 
+- Pagination 
 
 ![Снимок экрана 2021-02-02 в 11 06 27](https://user-images.githubusercontent.com/31729053/106564519-c0b2ee00-6546-11eb-8292-b1ac87e1ece9.png)
 
