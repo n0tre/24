@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PostService {
     @Autowired
-    PostRepo postRepo;
+    private PostRepo postRepo;
 
     public Page<Post> findByTag(String filter, Pageable pageable) {
         return postRepo.findByTag(filter, pageable);
@@ -18,10 +18,6 @@ public class PostService {
 
     public Page<Post> findAll(Pageable pageable) {
         return postRepo.findAll(pageable);
-    }
-
-    public Iterable<Post> findAllPosts() {
-        return postRepo.findAll();
     }
 
     public void savePost(Post post) {
