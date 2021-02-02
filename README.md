@@ -31,6 +31,8 @@ Feed page
 ![Снимок экрана 2021-02-01 в 22 48 39](https://user-images.githubusercontent.com/31729053/106506411-1c4b9000-64e3-11eb-9e10-b9159b05bfc9.png)
 
 Chat page:
+
+
 ![Снимок экрана 2021-02-01 в 23 06 16](https://user-images.githubusercontent.com/31729053/106506651-6f254780-64e3-11eb-9d4b-b27aa621b150.png)
 
 
