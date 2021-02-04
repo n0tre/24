@@ -11,19 +11,19 @@ import java.io.Serializable;
 public class Chat implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "chat_id")
-    private Long chatId;
+    private String chatId;
     @Column(name = "first_user_id")
     private Long firstUserId;
     @Column(name = "second_user_id")
     private Long secondUserId;
 
-    public Long getChatId() {
+    public String getChatId() {
         return chatId;
     }
 
-    public void setChatId(Long chatId) {
+    public void setChatId(String chatId) {
         this.chatId = chatId;
     }
 
@@ -42,4 +42,5 @@ public class Chat implements Serializable {
     public void setSecondUserId(Long secondUserId) {
         this.secondUserId = secondUserId;
     }
+
 }

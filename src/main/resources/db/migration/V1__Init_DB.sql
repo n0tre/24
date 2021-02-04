@@ -11,7 +11,7 @@ create table chat_messages
            );
 create table chats
            (
-               chat_id        int8 not null,
+               chat_id        varchar(255) not null,
                first_user_id  int8,
                second_user_id int8,
                primary key (chat_id),

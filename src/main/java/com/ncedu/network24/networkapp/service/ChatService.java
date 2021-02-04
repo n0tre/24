@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -36,10 +37,21 @@ public class ChatService {
             Chat newChat = new Chat();
             newChat.setFirstUserId(receiverId);
             newChat.setSecondUserId(senderId);
+            Long[] array = new Long[]{receiverId, senderId};
+            Arrays.sort(array);
+            String a = array[0].toString();
+            String b = array[1].toString();
+            String concatenate = a + "_" + b;
+            newChat.setChatId(concatenate);
             try {
                 chatRepo.save(newChat);
             } catch (DataIntegrityViolationException exception) {
                 System.out.println("Data Integrity Exception!");
+                if (chatRepo.findChatByFirstUserIdAndSecondUserId(receiverId, senderId) != null) {
+                    newChat = chatRepo.findChatByFirstUserIdAndSecondUserId(receiverId, senderId);
+                } else if (chatRepo.findChatByFirstUserIdAndSecondUserId(senderId, receiverId) != null) {
+                    newChat = chatRepo.findChatByFirstUserIdAndSecondUserId(senderId, receiverId);
+                }
             }
             chat = newChat;
         }
@@ -52,7 +64,6 @@ public class ChatService {
 
     public List<User> getReceivers(User user) {
         List<User> receivers = userRepo.findAll();
-        ;
         return receivers;
     }
 
